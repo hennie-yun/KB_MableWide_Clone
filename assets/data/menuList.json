@@ -1,0 +1,24 @@
+{
+  "menuList": [
+    {
+      "menuName": "홈",
+      "menuIcon": "home_rounded"
+    },
+    {
+      "menuName": "찜한 주식",
+      "menuIcon": "star_border_rounded"
+    },
+    {
+      "menuName": "트레이딩",
+      "menuIcon": "monitor_heart_rounded"
+    },
+    {
+      "menuName": "PRIME CLUB",
+      "menuIcon": "workspace_premium_rounded"
+    },
+    {
+      "menuName": "내자산",
+      "menuIcon": "pie_chart_rounded"
+    }
+  ]
+}
