@@ -1,7 +1,7 @@
 [
   {
     "subject": "주류업(주정, 에탄올 등)",
-    "fluctuation_rate": 5.63,
+    "fluctuation_rate": 3.23,
     "stocks": [
       {
         "jmCode": "276730",
@@ -9,6 +9,14 @@
         "currentprice": 1118.0,
         "fluctuation_rate": 2.39,
         "fluctuating_price": 26.0,
+        "isUp": true
+      },
+      {
+        "jmCode": "276730",
+        "name": "한국알콜",
+        "currentprice": 11510.0,
+        "fluctuation_rate": 1.68,
+        "fluctuating_price": 190.0,
         "isUp": true
       },
       {
@@ -42,6 +50,38 @@
         "fluctuation_rate": -1.29,
         "fluctuating_price": 2000.0,
         "isUp": false
+      },
+      {
+        "jmCode": "005300",
+        "name": "창해에탄올",
+        "currentprice": 152700.0,
+        "fluctuation_rate": -1.29,
+        "fluctuating_price": 2000.0,
+        "isUp": false
+      },
+      {
+        "jmCode": "005300",
+        "name": "국순당",
+        "currentprice": 152700.0,
+        "fluctuation_rate": -1.29,
+        "fluctuating_price": 2000.0,
+        "isUp": false
+      },
+      {
+        "jmCode": "005300",
+        "name": "숭구리당당",
+        "currentprice": 152700.0,
+        "fluctuation_rate": -1.29,
+        "fluctuating_price": 2000.0,
+        "isUp": false
+      },
+      {
+        "jmCode": "005300",
+        "name": "진로발효",
+        "currentprice": 152700.0,
+        "fluctuation_rate": -1.29,
+        "fluctuating_price": 2000.0,
+        "isUp": false
       }
     ]
   },
@@ -52,6 +92,14 @@
       {
         "jmCode": "276730",
         "name": "에코프로에이치엔",
+        "currentprice": 66000.0,
+        "fluctuation_rate": 8.20,
+        "fluctuating_price": 5000.0,
+        "isUp": true
+      },
+      {
+        "jmCode": "276730",
+        "name": "에코프로에이치엔2",
         "currentprice": 66000.0,
         "fluctuation_rate": 8.20,
         "fluctuating_price": 5000.0,
@@ -104,6 +152,14 @@
         "isUp": true
       },
       {
+        "jmCode": "276730",
+        "name": "대성창투2",
+        "currentprice": 2355.0,
+        "fluctuation_rate": 7.29,
+        "fluctuating_price": 160.0,
+        "isUp": true
+      },
+      {
         "jmCode": "023150",
         "name": "나우IB",
         "currentprice": 1432.0,
@@ -134,6 +190,14 @@
         "fluctuation_rate": 2.02,
         "fluctuating_price": 7.0,
         "isUp": true
+      },
+      {
+        "jmCode": "000140",
+        "name": "큐캐피탈2",
+        "currentprice": 535.0,
+        "fluctuation_rate": 2.02,
+        "fluctuating_price": 7.0,
+        "isUp": true
       }
     ]
   },
@@ -144,6 +208,14 @@
       {
         "jmCode": "276730",
         "name": "에이비프로바이오",
+        "currentprice": 1118.0,
+        "fluctuation_rate": 2.39,
+        "fluctuating_price": 26.0,
+        "isUp": true
+      },
+      {
+        "jmCode": "276730",
+        "name": "에이비프로바이오2",
         "currentprice": 1118.0,
         "fluctuation_rate": 2.39,
         "fluctuating_price": 26.0,
@@ -242,6 +314,14 @@
         "isUp": true
       },
       {
+        "jmCode": "276730",
+        "name": "한국카본2",
+        "currentprice": 2355.0,
+        "fluctuation_rate": 7.29,
+        "fluctuating_price": 160.0,
+        "isUp": true
+      },
+      {
         "jmCode": "023150",
         "name": "퍼스텍",
         "currentprice": 1432.0,
@@ -282,6 +362,14 @@
       {
         "jmCode": "276730",
         "name": "한국정보통신",
+        "currentprice": 2355.0,
+        "fluctuation_rate": 7.29,
+        "fluctuating_price": 160.0,
+        "isUp": true
+      },
+      {
+        "jmCode": "276730",
+        "name": "한국정보통신2",
         "currentprice": 2355.0,
         "fluctuation_rate": 7.29,
         "fluctuating_price": 160.0,

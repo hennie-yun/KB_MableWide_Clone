@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../../constants/CommonColor.dart';
+import '../../dialog/BasePopUpWindow.dart';
+import '../../dialog/NewsDialog.dart';
 
 class NewsDetail extends StatelessWidget {
   @override
@@ -17,14 +20,36 @@ class NewsDetail extends StatelessWidget {
                 SizedBox(height: 20),
                 subTitle("11/21", "afternoon"),
                 SizedBox(height: 10),
-                news("23/11/21 12:36", "달러화 약세.위안화 강세~~~~~~~~~~~~~~~~", "연합뉴스"),
-                news("23/11/21 12:36", "케이티엔지는 왜 전담에 냉담 한걸까?", "이데일리"),
-                news("23/11/21 12:36", "또 불어온 에이아이 훈풍~~ 이미 최고가 앤디비아의 실체", "이투데이"),
-                news("23/11/21 12:36", "10월 회사채 발행 10% 감소 신용등급 따라 양극화 계속 되어", "머니투데이"),
-                news("23/11/21 12:36", "11월 1~20일 수출 2.2% 증가 무역적자 어쩌고저꺼고~~~ ", "어쩌고뉴스"),
-
-
-
+                InkWell(
+                    onTap: () {
+                      popWindow(context, "뉴스", NewsDialog());
+                    },
+                    child: news("23/11/21 12:36",
+                        "달러화 약세.위안화 강세~~~~~~~~~~~~~~~~", "연합뉴스")),
+                InkWell(
+                    onTap: () {
+                      popWindow(context, "뉴스", NewsDialog());
+                    },
+                    child:
+                        news("23/11/21 12:36", "케이티엔지는 왜 전담에 냉담 한걸까?", "이데일리")),
+                InkWell(
+                    onTap: () {
+                      popWindow(context, "뉴스", NewsDialog());
+                    },
+                    child: news("23/11/21 12:36",
+                        "또 불어온 에이아이 훈풍~~ 이미 최고가 앤디비아의 실체", "이투데이")),
+                InkWell(
+                    onTap: () {
+                      popWindow(context, "뉴스", NewsDialog());
+                    },
+                    child: news("23/11/21 12:36",
+                        "10월 회사채 발행 10% 감소 신용등급 따라 양극화 계속 되어", "머니투데이")),
+                InkWell(
+                    onTap: () {
+                      popWindow(context, "뉴스", NewsDialog());
+                    },
+                    child: news("23/11/21 12:36",
+                        "11월 1~20일 수출 2.2% 증가 무역적자 어쩌고저꺼고~~~ ", "어쩌고뉴스")),
               ],
             )));
   }

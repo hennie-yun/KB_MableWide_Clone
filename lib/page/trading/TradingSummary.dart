@@ -158,6 +158,8 @@ class TradingSummary extends StatelessWidget {
                     ],
                   ));
             })
+            ]
+        ),
 
 
             // Obx(() {
@@ -189,10 +191,9 @@ class TradingSummary extends StatelessWidget {
             //     ),
             //   );
             // }),
-          ],
-        ),
-        // 각종 이모지들 모음
 
+
+        // 각종 이모지들 모음
       SizedBox(
           child: Row(
             children: [

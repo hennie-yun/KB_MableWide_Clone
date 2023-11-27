@@ -45,13 +45,10 @@ class ThemedStockPageController extends GetxController {
         themedStock.stocks.add(themedStockItem);
       });
 
-      print(themedStock.subject);
-
       themedStockList.add(themedStock);
     });
 
-    print("items type:");
-
+    Future.delayed(Duration(milliseconds: 200));
 
   }
 

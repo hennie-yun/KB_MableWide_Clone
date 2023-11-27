@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'constants/CommonColor.dart';
+import 'lang/LocalizationService.dart';
 import 'router/PageRouter.dart';
 
 void main() async{
@@ -37,6 +38,12 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: CommonColor.bgDarkMode,
           fontFamily: 'Pretendard'),
       title: "sm_mdi",
+
+      //언어 설정
+      locale: LocalizationService.locale,
+      fallbackLocale: LocalizationService.fallbackLocale,
+      translations: LocalizationService(),
+
       debugShowCheckedModeBanner: false,
       defaultTransition: Transition.fade, /// Transition : 화면 전환 모드
       getPages: PageRouter.route,         /// Router ( 화면 - 이름 목록 )

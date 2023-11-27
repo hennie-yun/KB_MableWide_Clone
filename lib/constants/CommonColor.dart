@@ -48,4 +48,7 @@ class CommonColor {
   static final chartColor_2 = Color(0xFFffd45b);
   static final chartColor_3 = Color(0xFFff8080);
 
+  //데이터 표
+  static final dataColumn = Color(0xFF242329);
+
 }

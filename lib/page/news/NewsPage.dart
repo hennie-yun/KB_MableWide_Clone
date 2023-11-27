@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../constants/CommonColor.dart';
+import '../../dialog/BasePopUpWindow.dart';
+import '../../dialog/NewsDialog.dart';
 import '../../manager/MenuManager.dart';
 import 'NewsDetail.dart';
+import 'package:get/get.dart';
 
 class NewsPage extends StatelessWidget {
   @override
@@ -26,11 +29,19 @@ class NewsPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          newsBox(
-                              "원.달러 환율 1296.9원 장 마감", "연합뉴스", "2023/11/15 13:16"),
+                          InkWell(
+                              onTap: () {
+                                popWindow(context, "뉴스", NewsDialog());
+                              },
+                              child: newsBox(
+                                  "news_sum_0".tr, "연합뉴스", "2023/11/15 13:16")),
                           SizedBox(height: 31),
-                          newsBox(
-                              "코스닥, 미중 화해 무드에 상승전환", "머니투데이", "2023/11/15 13:16"),
+                          InkWell(
+                              onTap: () {
+                                popWindow(context, "뉴스", NewsDialog());
+                              },
+                              child: newsBox("코스닥, 미중 화해 무드에 상승전환", "머니투데이",
+                                  "2023/11/15 13:16")),
                         ],
                       ),
                     ),
@@ -42,11 +53,19 @@ class NewsPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          newsBox(
-                              "아쉬운 '상저하고'..지연되는 기업 실적 회복세", "이투데이", "2023/11/15 13:16"),
+                          InkWell(
+                              onTap: () {
+                                popWindow(context, "뉴스", NewsDialog());
+                              },
+                              child: newsBox("아쉬운 '상저하고'..지연되는 기업 실적 회복세",
+                                  "이투데이", "2023/11/15 13:16")),
                           SizedBox(height: 31),
-                          newsBox(
-                              "SK어스온, 베트남 광구서 원유 발견 ", "머니투데이", "2023/11/15 13:16"),
+                          InkWell(
+                              onTap: () {
+                                popWindow(context, "뉴스", NewsDialog());
+                              },
+                              child: newsBox("SK어스온, 베트남 광구서 원유 발견 ", "머니투데이",
+                                  "2023/11/15 13:16")),
                         ],
                       ),
                     ),
@@ -60,11 +79,19 @@ class NewsPage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            newsBox(
-                                "[오전 주요 국제 금융뉴스]", "연합뉴스", "2023/11/15 13:16"),
+                            InkWell(
+                                onTap: () {
+                                  popWindow(context, "뉴스", NewsDialog());
+                                },
+                                child: newsBox("[오전 주요 국제 금융뉴스]", "연합뉴스",
+                                    "2023/11/15 13:16")),
                             SizedBox(height: 31),
-                            newsBox(
-                                "[오전 주요 국제 금융뉴스]", "연합뉴스", "2023/11/15 13:16"),
+                            InkWell(
+                                onTap: () {
+                                  popWindow(context, "뉴스", NewsDialog());
+                                },
+                                child: newsBox("[오전 주요 국제 금융뉴스]", "연합뉴스",
+                                    "2023/11/15 13:16")),
                           ],
                         ),
                       ),
@@ -125,10 +152,9 @@ class NewsPage extends StatelessWidget {
                             fontSize: 13, color: CommonColor.fontDimmed)),
                   ],
                 )),
-
-              Container(
-                    padding: EdgeInsets.only(bottom: 15),
-                    child: getImageWidget(newsSource: company))
+            Container(
+                padding: EdgeInsets.only(bottom: 15),
+                child: getImageWidget(newsSource: company))
           ],
         ));
   }

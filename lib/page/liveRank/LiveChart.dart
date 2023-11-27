@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../StoreUtils/StoreUtils.dart';
 import '../../constants/CommonColor.dart';
+import '../../data/JmListData.dart';
 import 'LiveChartController.dart';
 
 class LiveChart extends StatelessWidget {
@@ -14,6 +15,7 @@ class LiveChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.init();
     return Container(
         padding: const EdgeInsets.only(top: 50),
         child: Column(
@@ -82,7 +84,7 @@ class LiveChart extends StatelessWidget {
               Expanded(
                 child: TabBarView(
                   children: [
-                    chartContents(),
+                    chartContents(controller.jmData[0].stocks),  // "많이 오른" 탭에 대한 데이터 전달
                     const Center(
                       child: Text('내용 2'),
                     ),
@@ -105,7 +107,7 @@ class LiveChart extends StatelessWidget {
     );
   }
 
-  Widget chartContents() {
+  Widget chartContents(List<JmStockItem> stockItems) {
     return DataTable(
       border: const TableBorder(
         verticalInside: BorderSide(
@@ -119,154 +121,296 @@ class LiveChart extends StatelessWidget {
       ),
       columns: const [
         DataColumn(
-            label: Expanded(
-          flex: 10,
-          child: Text('종목명',
-              textAlign: TextAlign.left, style: TextStyle(color: Colors.white)),
-        )),
+          label: Expanded(
+            flex: 10,
+            child: Text('종목명',
+                textAlign: TextAlign.left, style: TextStyle(color: Colors.white)),
+          ),
+        ),
         DataColumn(
-            label: Expanded(
-          flex: 1,
-          child: Text('현재가',
-              textAlign: TextAlign.right,
-              style: TextStyle(color: Colors.white)),
-        )),
-        DataColumn(
-            label: Expanded(
-          flex: 1,
-          child: Text('전일대비',
-              textAlign: TextAlign.right,
-              style: TextStyle(color: Colors.white)),
-        )),
-        DataColumn(
-            label: Expanded(
-          flex: 1,
-          child: Text('등락률',
-              textAlign: TextAlign.right,
-              style: TextStyle(color: Colors.white)),
-        )),
-        DataColumn(
-            label: Expanded(
-          flex: 1,
-          child: Center(
-            child: Text('찜하기',
-                textAlign: TextAlign.center,
+          label: Expanded(
+            flex: 1,
+            child: Text('현재가',
+                textAlign: TextAlign.right,
                 style: TextStyle(color: Colors.white)),
           ),
-        )),
+        ),
+        DataColumn(
+          label: Expanded(
+            flex: 1,
+            child: Text('전일대비',
+                textAlign: TextAlign.right,
+                style: TextStyle(color: Colors.white)),
+          ),
+        ),
+        DataColumn(
+          label: Expanded(
+            flex: 1,
+            child: Text('등락률',
+                textAlign: TextAlign.right,
+                style: TextStyle(color: Colors.white)),
+          ),
+        ),
+        DataColumn(
+          label: Expanded(
+            flex: 1,
+            child: Center(
+              child: Text('찜하기',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white)),
+            ),
+          ),
+        ),
       ],
-      rows: [
-        buildDataRow(
-            "assets/images/jm2.png", "제주맥주", "+", "19,060", "8,060", "76.5%"),
-        buildDataRow(
-            "assets/images/jm2.png", "삼성증권", "-", "19,060", "8,060", "56.5%"),
-      ],
+      rows: stockItems.map((item) {
+        final textColor = item.isUp ? CommonColor.fontUp : CommonColor.fontDown;
+
+        return DataRow(
+          cells: [
+            //종목명
+            DataCell(
+              Container(
+                padding: EdgeInsets.all(0),
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 28,
+                      height: 28,
+                      child: Image.asset(item.jmImg),
+                    ),
+                    SizedBox(width: 10,),
+                    Text(item.jmName,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(color: Color(0xFFB2B4Bf))
+                    ),
+                  ],
+                ),
+              ),
+              showEditIcon: false,
+            ),
+            //현재가
+            DataCell(
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text("${item.currentPrice}원",
+                    style: TextStyle(color: Color(0xFFB2B4Bf))),
+              ),
+              showEditIcon: false,
+            ),
+            //전일대비 가격
+            DataCell(
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text("${item.isUp ? "▲":"▼"}${item.variation}원",
+                    style: TextStyle(color: textColor)),
+              ),
+              showEditIcon: false,
+            ),
+            //등락률
+            DataCell(
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text("${item.isUp ? "▲":"▼"}${item.variationRate}%",
+                    style: TextStyle(color: textColor)),
+              ),
+              showEditIcon: false,
+            ),
+            //찜하기
+            DataCell(
+              Center(
+                child: FutureBuilder<bool?>(
+                  future: StoreUtils.instance.checkStar(item.jmName),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else {
+                      bool isPicked = snapshot.data ?? false;
+                      return InkWell(
+                        onTap: () async {
+                          await StoreUtils.instance.pick(item.jmName);
+                        },
+                        child: Icon(
+                          isPicked ? Icons.star : Icons.star_border_outlined,
+                          color: isPicked ? Colors.yellow : CommonColor.fontGrey,
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
+              showEditIcon: false,
+            ),
+          ],
+        );
+      }).toList(),
     );
   }
 
-  /// DataRow 모음
-  DataRow buildDataRow(String jmImg, String jmName, String sign,
-      String jmCurrentPrice, String jmPriceBefore, String jmYield) {
-    return DataRow(cells: [
-      DataCell(
-        Row(
-          children: [
-            Image.asset(
-              jmImg,
-              width: 28,
-              height: 28,
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Text(jmName,
-                  textAlign: TextAlign.left,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: CommonColor.white)),
-            )
-          ],
-        ),
-      ),
-      DataCell(
-        Align(
-          alignment: Alignment.centerRight,
-          child: Text(jmCurrentPrice,
-          textAlign: TextAlign.right,
-          style: TextStyle(
-              color:
-                  sign == "+" ? CommonColor.fontUp : CommonColor.fontDown)),
-        ),
-        showEditIcon: false,
-      ),
-      DataCell(
-        Align(
-            alignment: Alignment.centerRight,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Icon(
-                    sign == "+"
-                        ? Icons.arrow_drop_up_outlined
-                        : Icons.arrow_drop_down_outlined,
-                    color: sign == "+"
-                        ? CommonColor.fontUp
-                        : CommonColor.fontDown),
-                Text(jmPriceBefore,
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                        color: sign == "+"
-                            ? CommonColor.fontUp
-                            : CommonColor.fontDown)),
-              ],
-            )),
-        showEditIcon: false,
-      ),
-      DataCell(
-        Align(
-            alignment: Alignment.centerRight,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Icon(
-                    sign == "+"
-                        ? Icons.arrow_drop_up_outlined
-                        : Icons.arrow_drop_down_outlined,
-                    color: sign == "+"
-                        ? CommonColor.fontUp
-                        : CommonColor.fontDown),
-                Text(jmYield,
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                        color: sign == "+"
-                            ? CommonColor.fontUp
-                            : CommonColor.fontDown)),
-              ],
-            )),
-        showEditIcon: false,
-      ),
-      DataCell(
-        Center(
-          child: FutureBuilder<bool?>(
-            future: StoreUtils.instance.checkStar(jmName), // jmName 전달
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator(); // 로딩 중 표시
-              } else {
-                bool isPicked = snapshot.data ?? false;
-                return InkWell(
-                  onTap: () async {
-                    await StoreUtils.instance.pick(jmName); // pick 메서드를 비동기로 실행
-                  },
-                  child: Icon(
-                    isPicked ? Icons.star : Icons.star_border_outlined,
-                    color: isPicked ? Colors.yellow : CommonColor.fontGrey,
-                  ),
-                );
-              }
-            },
-          ),
-        ),
-        showEditIcon: false,
-      ),
-    ]);
-  }
+  // Widget chartContents() {
+  //   return DataTable(
+  //     border: const TableBorder(
+  //       verticalInside: BorderSide(
+  //         width: 1,
+  //         color: Color(0xFF74737f),
+  //       ),
+  //       horizontalInside: BorderSide(
+  //         width: 1,
+  //         color: Color(0xFF74737f),
+  //       ),
+  //     ),
+  //     columns: const [
+  //       DataColumn(
+  //           label: Expanded(
+  //         flex: 10,
+  //         child: Text('종목명',
+  //             textAlign: TextAlign.left, style: TextStyle(color: Colors.white)),
+  //       )),
+  //       DataColumn(
+  //           label: Expanded(
+  //         flex: 1,
+  //         child: Text('현재가',
+  //             textAlign: TextAlign.right,
+  //             style: TextStyle(color: Colors.white)),
+  //       )),
+  //       DataColumn(
+  //           label: Expanded(
+  //         flex: 1,
+  //         child: Text('전일대비',
+  //             textAlign: TextAlign.right,
+  //             style: TextStyle(color: Colors.white)),
+  //       )),
+  //       DataColumn(
+  //           label: Expanded(
+  //         flex: 1,
+  //         child: Text('등락률',
+  //             textAlign: TextAlign.right,
+  //             style: TextStyle(color: Colors.white)),
+  //       )),
+  //       DataColumn(
+  //           label: Expanded(
+  //         flex: 1,
+  //         child: Center(
+  //           child: Text('찜하기',
+  //               textAlign: TextAlign.center,
+  //               style: TextStyle(color: Colors.white)),
+  //         ),
+  //       )),
+  //     ],
+  //     rows: [
+  //     ],
+  //   );
+  // }
+  //
+  // /// DataRow 모음
+  // /// List<ThemedStockItem> stockItem
+  // DataRow buildDataRow(List<JmStockItem>stockItem) {
+  //   rows: stockItem.map((item) {
+  //
+  //   return DataRow(
+  //       cells: [
+  //     DataCell(
+  //       Row(
+  //         children: [
+  //           Image.asset(
+  //             sjmImg,
+  //             width: 28,
+  //             height: 28,
+  //           ),
+  //           const SizedBox(width: 10),
+  //           Expanded(
+  //             child: Text(jmName,
+  //                 textAlign: TextAlign.left,
+  //                 overflow: TextOverflow.ellipsis,
+  //                 style: TextStyle(color: CommonColor.white)),
+  //           )
+  //         ],
+  //       ),
+  //     ),
+  //     DataCell(
+  //       Align(
+  //         alignment: Alignment.centerRight,
+  //         child: Text(jmCurrentPrice,
+  //         textAlign: TextAlign.right,
+  //         style: TextStyle(
+  //             color:
+  //                 sign == "+" ? CommonColor.fontUp : CommonColor.fontDown)),
+  //       ),
+  //       showEditIcon: false,
+  //     ),
+  //     DataCell(
+  //       Align(
+  //           alignment: Alignment.centerRight,
+  //           child: Row(
+  //             mainAxisAlignment: MainAxisAlignment.end,
+  //             children: [
+  //               Icon(
+  //                   sign == "+"
+  //                       ? Icons.arrow_drop_up_outlined
+  //                       : Icons.arrow_drop_down_outlined,
+  //                   color: sign == "+"
+  //                       ? CommonColor.fontUp
+  //                       : CommonColor.fontDown),
+  //               Text(jmPriceBefore,
+  //                   textAlign: TextAlign.right,
+  //                   style: TextStyle(
+  //                       color: sign == "+"
+  //                           ? CommonColor.fontUp
+  //                           : CommonColor.fontDown)),
+  //             ],
+  //           )),
+  //       showEditIcon: false,
+  //     ),
+  //     DataCell(
+  //       Align(
+  //           alignment: Alignment.centerRight,
+  //           child: Row(
+  //             mainAxisAlignment: MainAxisAlignment.end,
+  //             children: [
+  //               Icon(
+  //                   sign == "+"
+  //                       ? Icons.arrow_drop_up_outlined
+  //                       : Icons.arrow_drop_down_outlined,
+  //                   color: sign == "+"
+  //                       ? CommonColor.fontUp
+  //                       : CommonColor.fontDown),
+  //               Text(jmYield,
+  //                   textAlign: TextAlign.right,
+  //                   style: TextStyle(
+  //                       color: sign == "+"
+  //                           ? CommonColor.fontUp
+  //                           : CommonColor.fontDown)),
+  //             ],
+  //           )),
+  //       showEditIcon: false,
+  //     ),
+  //     DataCell(
+  //       Center(
+  //         child: FutureBuilder<bool?>(
+  //           future: StoreUtils.instance.checkStar(jmName), // jmName 전달
+  //           builder: (context, snapshot) {
+  //             if (snapshot.connectionState == ConnectionState.waiting) {
+  //               return const CircularProgressIndicator(); // 로딩 중 표시
+  //             } else {
+  //               bool isPicked = snapshot.data ?? false;
+  //               return InkWell(
+  //                 onTap: () async {
+  //                   await StoreUtils.instance.pick(jmName); // pick 메서드를 비동기로 실행
+  //                 },
+  //                 child: Icon(
+  //                   isPicked ? Icons.star : Icons.star_border_outlined,
+  //                   color: isPicked ? Colors.yellow : CommonColor.fontGrey,
+  //                 ),
+  //               );
+  //             }
+  //           },
+  //         ),
+  //       ),
+  //       showEditIcon: false,
+  //     ),
+  //   ]);
+  // }
+  //       }
+
+
 }
